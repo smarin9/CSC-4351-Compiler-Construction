@@ -54,7 +54,7 @@ public class FindEscape {
 
   void traverseDec(int depth, Absyn.Dec d) {
     if (d instanceof Abysn.TypeDec)
-        traverseDewc(depth, (Abysn.TypeDec)d);
+        traverseDec(depth, (Abysn.TypeDec)d);
     else if (d instanceof Abysn.FunctionDec)
        traverseDec(depth, (Abysn.FunctionDec)d);
     else if (d instanceof Abysn.VarDec)
@@ -93,14 +93,9 @@ public class FindEscape {
   void traverseExp(int depth, Absyn.CallExp e)
   {
     if (parentFunction != null)
-    {
       parentFunction.leaf = false;
-    }
-    
     for (Absyn.ExpList args = e.args; args != null; args = args.tail)
-    {
       traverseExp(depth, args.head);
-    }
   }
   
   void traverseExp(int depth, Absyn.ForExp e)
@@ -118,9 +113,7 @@ public class FindEscape {
     traverseExp(depth, e.test);
     traverseExp(depth, e.thenclause);
     if (e.elseclause != null)
-    {
       traverseExp(depth, e.elseclause);
-    }
   }
   
   void traverseExp(int depth, Absyn.IntExp e)
@@ -131,9 +124,7 @@ public class FindEscape {
   {
     escEnv.beginScope();
     for (Absyn.DecList dec = e.decs; dec != null; dec = dec.tail)
-    {
       traverseDec(depth, dec.head);
-    }
     traverseExp(depth, e.body);
     escEnv.endScope();
   }
@@ -151,17 +142,13 @@ public class FindEscape {
   void traverseExp(int depth, Absyn.RecordExp e)
   {
     for (Absyn.FieldExpList field = e.fields; field != null; field = field.tail)
-    {
-      traverseExp(depth, field.init);
-    }
+      traverseExp(depth, field.init);    
   }
   
   void traverseExp(int depth, Absyn.SeqExp e)
   {
     for (Absyn.ExpList expList = e.list; expList != null; expList = expList.tail)
-    {
       traverseExp(depth, expList.head);
-    }
   }
   
   void traverseExp( int depth, Absyn.StringExp e)
