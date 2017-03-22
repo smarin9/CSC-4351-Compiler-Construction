@@ -7,8 +7,8 @@ public class VarEntry extends Entry {
     ty = t;
   }
   
-  VarEntry(Translate.acess a, Types.Type t){
-    acess = a;
+  VarEntry(Translate.access a, Types.Type t){
+    access = a;
     ty = t;
   }
 }
