@@ -6,4 +6,9 @@ public class VarEntry extends Entry {
   VarEntry(Types.Type t) {
     ty = t;
   }
+  
+  VarEntry(Translate.acess a, Types.Type t){
+    acess = a;
+    ty = t;
+  }
 }
