@@ -25,11 +25,11 @@ public class MipsFrame extends Frame {
 
   
   private AccessList traverseFormals(int offset, Util.Boollist fromals){
+    if (formals == null)
+      return null;
     Access access;
     if (fromals.head)
       access = new InFrame(offset);
-    else if (formals == null)
-      return null;
     else
       access = new InReg(new Temp());
     return new AccessList(access, traverseFormasls(wordsize + offset, fromals.tail));
