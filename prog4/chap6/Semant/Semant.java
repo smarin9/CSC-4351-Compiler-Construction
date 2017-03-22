@@ -3,6 +3,9 @@ import Translate.Exp;
 import Types.Type;
 import java.util.Hashtable;
 import Translate.Level;
+import Translate.Acess;
+import Translate.AcessList;
+import Abysn.ExpList;
 
 public class Semant {
   Env env;
@@ -10,12 +13,15 @@ public class Semant {
   public Semant(Frame.Frame frame, ErrorMsg.ErrorMsg err) {
     this(new Env(err), new Level(frame));
   }
+	
   Semant(Env e, Level l) {
     env = e;
     level = l;
   }
 
   public void transProg(Absyn.Exp exp) {
+    new FindEscape.FindEscape(exp);
+    level = new Level(level, Symbol.Symbol.symbol("tigermain"), null);
     transExp(exp);
   }
 
@@ -301,6 +307,7 @@ public class Semant {
     ExpTy hi = transExp(e.hi);
     checkInt(hi, e.hi.pos);
     env.venv.beginScope();
+    Access access = level.allocLocal(e.var.escape);	  
     e.var.entry = new LoopVarEntry(INT);
     env.venv.put(e.var.name, e.var.entry);
     Semant loop = new LoopSemant(env, level);
@@ -369,6 +376,7 @@ public class Semant {
       if (!init.ty.coerceTo(type))
 	error(d.pos, "assignment type mismatch");
     }
+    Access access = level.allocLocal(d.escape);
     d.entry = new VarEntry(type);
     env.venv.put(d.name, d.entry);
     return null;
@@ -410,6 +418,7 @@ public class Semant {
         error(f.pos, "function redeclared");
       Types.RECORD fields = transTypeFields(new Hashtable(), f.params);
       Type type = transTy(f.result);
+      Level newLevel = new Level(level, f.name, escapes(f.params), f.params);	 
       f.entry = new FunEntry(fields, type);
       env.venv.put(f.name, f.entry);
     }
