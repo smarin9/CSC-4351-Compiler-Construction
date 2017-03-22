@@ -10,6 +10,7 @@ import Frame.AccessList;
 public class MipsFrame extends Frame {
 
   private int count = 0;
+  int offset;
   
   public Frame newFrame(Symbol name, Util.BoolList formals) {
     Label label;
