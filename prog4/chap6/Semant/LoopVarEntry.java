@@ -4,4 +4,6 @@ class LoopVarEntry extends VarEntry {
   LoopVarEntry(Types.Type t) {
     super(t);
   }
+  
+  LoopVarEntry(Translate.Acess acc, Types.Type t){ super(t);}
 }
