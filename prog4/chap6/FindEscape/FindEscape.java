@@ -21,7 +21,7 @@ public class FindEscape {
     if (e instanceof Absyn.ArrayExp)
       traverseExp(depth, (Absyn.ArrayExp)e);
     else if (e instanceof Absyn.AssignExp)
-      traverseExp(depth, Absyn.AssignExp)e);
+      traverseExp(depth, (Absyn.AssignExp)e);
     else if (e instanceof Absyn.BreakExp)
       traverseExp(depth, (Absyn.BreakExp)e);
     else if (e instanceof Absyn.CallExp)
@@ -33,17 +33,17 @@ public class FindEscape {
     else if (e instanceof Absyn.IntExp)
       traverseExp(depth, (Absyn.IntExp)e);
     else if (e instanceof Absyn.LetExp)
-      traverseExp(depth, Absyn.LetExp)e);
+      traverseExp(depth, (Absyn.LetExp)e);
     else if (e instanceof Absyn.NilExp)
-      traverseExp(depth, Absyn.NilExp)e);
+      traverseExp(depth, (Absyn.NilExp)e);
     else if (e instanceof Absyn.OpExp)
-      traverseExp(depth, Absyn.OpExp)e);
+      traverseExp(depth, (Absyn.OpExp)e);
     else if (e instanceof Absyn.RecordExp)
-      traverseExp(depth, Absyn.RecordExp)e);
+      traverseExp(depth, (Absyn.RecordExp)e);
     else if (e instanceof Absyn.SeqExp)
-      traverseExp(depth, Absyn.SeqExp)e);
+      traverseExp(depth, (Absyn.SeqExp)e);
     else if (e instanceof Absyn.StringExp)
-      traverseExp(depth, Absyn.StringExp)e);
+      traverseExp(depth, (Absyn.StringExp)e);
     else if (e instanceof Absyn.VarExp)
       traverseExp(depth, (Absyn.VarExp)e);
     else if (e instanceof Absyn.WhileExp)
