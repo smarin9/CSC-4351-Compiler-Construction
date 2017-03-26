@@ -24,6 +24,7 @@ public class MipsFrame extends Frame {
   public MipsFrame() {}
   private MipsFrame(Label n, Util.BoolList f) {
     name = n;
+    formals = traverseFormals(0, f);
   }
   private AccessList traverseFormals(int offset, Util.BoolList fromals){
     if (formals == null)
