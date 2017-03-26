@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import Translate.Level;
 import Translate.Access;
 import Translate.AccessList;
+import Symbol.Symbol;
 
 
 public class Semant {
@@ -21,7 +22,7 @@ public class Semant {
 
   public void transProg(Absyn.Exp exp) {
     new FindEscape.FindEscape(exp);
-    level = new Level(level, Symbol.Symbol.symbol("tigermain"), null);
+    level = new Level(level, Symbol.symbol("tigermain"), null);
     transExp(exp);
   }
 
