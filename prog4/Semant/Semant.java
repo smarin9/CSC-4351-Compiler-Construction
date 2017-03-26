@@ -3,9 +3,9 @@ import Translate.Exp;
 import Types.Type;
 import java.util.Hashtable;
 import Translate.Level;
-import Translate.Acess;
-import Translate.AcessList;
-import Abysn.ExpList;
+import Translate.Access;
+import Translate.AccessList;
+
 
 public class Semant {
   Env env;
@@ -23,6 +23,13 @@ public class Semant {
     new FindEscape.FindEscape(exp);
     level = new Level(level, Symbol.Symbol.symbol("tigermain"), null);
     transExp(exp);
+  }
+
+  private Util.BoolList escaped(Absyn.FieldList f) {
+    if (f == null)
+      return null;
+    else
+      return new Util.BoolList(f.escape, escaped(f.tail));
   }
 
   private void error(int pos, String msg) {
@@ -418,7 +425,7 @@ public class Semant {
         error(f.pos, "function redeclared");
       Types.RECORD fields = transTypeFields(new Hashtable(), f.params);
       Type type = transTy(f.result);
-      Level newLevel = new Level(level, f.name, escapes(f.params), f.params);	 
+      Level newLevel = new Level(level, f.name, escaped(f.params), f.leaf);	 
       f.entry = new FunEntry(fields, type);
       env.venv.put(f.name, f.entry);
     }

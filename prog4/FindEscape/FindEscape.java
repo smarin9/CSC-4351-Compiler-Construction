@@ -1,3 +1,4 @@
+
 package FindEscape;
 
 public class FindEscape {
@@ -53,27 +54,27 @@ public class FindEscape {
   }
 
   void traverseDec(int depth, Absyn.Dec d) {
-    if (d instanceof Abysn.TypeDec)
-        traverseDec(depth, (Abysn.TypeDec)d);
-    else if (d instanceof Abysn.FunctionDec)
-       traverseDec(depth, (Abysn.FunctionDec)d);
-    else if (d instanceof Abysn.VarDec)
-      traverseDec(depth, (Abysn.VarDec)d);
+    if (d instanceof Absyn.TypeDec)
+        traverseDec(depth, (Absyn.TypeDec)d);
+    else if (d instanceof Absyn.FunctionDec)
+       traverseDec(depth, (Absyn.FunctionDec)d);
+    else if (d instanceof Absyn.VarDec)
+      traverseDec(depth, (Absyn.VarDec)d);
     else
       throw new Error("FindEscape.traverseDec: Dec d is not a valid subclass of Dec");
   }
   
-  void traverseVar(int depth, Abysn.FieldVar v){
+  void traverseVar(int depth, Absyn.FieldVar v){
     traverseVar(depth, v.var);
   }
   
-  void traverseVar(int depth, Abysn.SimpleVar v){
+  void traverseVar(int depth, Absyn.SimpleVar v){
     Escape varEsc = (Escape)escEnv.get(v.name);
     if (varEsc != null && varEsc.depth < depth)
       varEsc.setEscape();
   }
   
-  void traverseVar(int depth, Abysn.SubscriptVar v){
+  void traverseVar(int depth, Absyn.SubscriptVar v){
     traverseExp(depth, v.index);
     traverseVar(depth, v.var);
   }
@@ -86,7 +87,7 @@ public class FindEscape {
   
   void traverseExp(int depth, Absyn.AssignExp e)
   {
-    traverseVar(depth, e.exp);
+    traverseExp(depth, e.exp);
     traverseVar(depth, e.var);
   }
   
@@ -170,20 +171,20 @@ public class FindEscape {
   {
     Absyn.FunctionDec oldParentFunction = parentFunction;
     depth = depth + 1;
-    for (Abysn.FuncitonDec function = d; function != null; function = function,next){
+    for (Absyn.FunctionDec function = d; function != null; function = function.next){
       parentFunction = function;
       escEnv.beginScope();
-      for (Abysn.FieldList param = function.params; param != null; param = param.tail)
+      for (Absyn.FieldList param = function.params; param != null; param = param.tail)
         escEnv.put(param.name, new FormalEscape(depth, param));
       traverseExp(depth, function.body);
       escEnv.endScope();
     }
-    parentfunction = oldParentFunction;
+    parentFunction = oldParentFunction;
   }
   
-  void traverseDec(int depth, Abysn.TypeDec d){ }
+  void traverseDec(int depth, Absyn.TypeDec d){ }
   
-  void traversDec(int depth, Abysn.VarDec d){
+  void traversDec(int depth, Absyn.VarDec d){
     traverseExp(depth, d.init);
     escEnv.put(d.name, new VarEscape(depth, d));
   }
